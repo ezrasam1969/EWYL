@@ -1,0 +1,185 @@
+<<App.js>>
+import React from 'react'
+import './styling.css';
+import Top from './Top';
+import themes from './themes';
+import { ChakraProvider } from '@chakra-ui/react';
+
+const App = () => {
+  return (
+    <div className='Fund'>
+      <ChakraProvider>
+      <Top/>
+      </ChakraProvider>
+    </div>
+  )
+}
+
+export default App;
+
+
+
+<<index.js>>
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import Form from './App';
+import { ChakraProvider } from '@chakra-ui/react'
+import { Input } from '@chakra-ui/react'
+import reportWebVitals from './reportWebVitals';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <ChakraProvider>
+      <Form />
+    </ChakraProvider> 
+  </React.StrictMode>
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+
+
+
+<<Top.js>>
+
+
+import React, { useState } from 'react';
+import { Input } from '@chakra-ui/react'
+import { px } from 'framer-motion'
+import { Text } from '@chakra-ui/react'
+import { Heading } from '@chakra-ui/react'
+import { Select } from '@chakra-ui/react'
+import {InputGroup, InputLeftElement, InputRightElement, Stack, Flex } from '@chakra-ui/react';
+import { Button, ButtonGroup } from '@chakra-ui/react'
+import styling from './styling.css'
+
+
+const FormField = ({label,inputType,placeholder,value,onChange}) =>{
+    return(
+        <Flex align="center" marginBottom={4}>
+      <Text fontSize='md' width="200px" textAlign="justify" marginRight={100}>{label}</Text>
+    
+        <Input type={inputType} placeholder={placeholder} value={value} onChange={onChange} htmlSize={14} width="300px" />
+    </Flex>
+  );
+};
+
+const Top = () => {
+    const [title, setTitle] = useState('');
+    const [agency, setAgency] = useState('');
+    const [grant, setGrant] = useState('');
+    const [letterNumber, setLetterNumber] = useState('');
+    const [dateOfSubmission, setDateOfSubmission] = useState('');
+    const [copi, setCOPI] = useState('');
+    const [duration, setDuration] = useState('');
+    const [year, setYear] = useState('');
+
+  
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent the default form submission
+    const formData = {
+      title,
+      agency,
+      grant,
+      letterNumber,
+      dateOfSubmission,
+      copi,
+      duration,
+      year,
+      
+    };
+    console.log('Submitted Data:', formData);
+    // Here you can add logic to save the data (e.g., send it to an API)
+  };
+
+  const handleReset = () => {
+    setTitle('');
+    setAgency('');
+    setGrant('');
+    setLetterNumber('');
+    setDateOfSubmission('');
+    setCOPI('');
+    setDuration('');
+    setYear('');
+  };
+  return (
+    <Flex direction="column" align="center" justify="center" height="100vh" className='mains'>
+    <div className='mains'>
+        <Heading textAlign= "center" mb={4}>Research</Heading>
+        <hr/>
+        <br/>
+        <Heading textAlign= "center" mb={5} size="md">Funded Projects Submission</Heading>
+        <form onSubmit={handleSubmit}>
+        <div className='titles'>
+            <FormField label="Title of the Project:" inputType="text" placeholder="Enter the Title" value={title} onChange={(e)=>setTitle(e.target.value)} />
+            
+            <Flex align="center" marginBottom={4}>
+              <Text fontSize='md' width="200px" textAlign="justify" marginRight={100}>Funding Agency:</Text>
+              <Select placeholder='Choose the Agency' value={agency} onChange={(e) => setAgency(e.target.value)} width="300px">
+                <option value='option1'>Agency 1</option>
+                <option value='option2'>Agency 2</option>
+                <option value='option3'>Agency 3</option>
+                <option value='option4'>Agency 4</option>
+                <option value='option5'>Agency 5</option>
+              </Select>
+            </Flex>
+            <FormField label="Project Grant:" inputType="text" placeholder="Project Grant" value={grant} onChange={(e) => setGrant(e.target.value)}/>
+            <FormField label="Letter Number:" inputType="text" placeholder="Enter the Letter Number" value={letterNumber} onChange={(e) => setLetterNumber(e.target.value)}/>
+            <FormField label="Date of Submission:" inputType="date" value={dateOfSubmission} onChange={(e) => setDateOfSubmission(e.target.value)}/>
+            
+            <Flex align="center" marginBottom={4}>
+              <Text fontSize='md' width="200px" textAlign="justify" marginRight={100}>CO-PI:</Text>
+              <Select placeholder='Employee ID' value={copi} onChange={(e) => setCOPI(e.target.value)} width="300px">
+                <option value='option1'>Employee ID 1</option>
+                <option value='option2'>Employee ID 2</option>
+                <option value='option3'>Employee ID 3</option>
+                <option value='option4'>Employee ID 4</option>
+                <option value='option5'>Employee ID 5</option>
+              </Select>
+            </Flex>
+
+            
+            <Flex align="center" marginBottom={4}>
+              <Text fontSize='md' width="200px" textAlign="justify" marginRight={100}>Project Duration:</Text>
+              
+              <Select placeholder='Months' value={duration} onChange={(e) => setDuration(e.target.value)} width="120px" marginRight={4}>
+                <option value='option1'>1</option>
+                <option value='option2'>2</option>
+                <option value='option3'>3</option>
+                <option value='option4'>4</option>
+                <option value='option5'>5</option>
+              </Select>
+    
+              <Select placeholder='Years' value={year} onChange={(e) => setYear(e.target.value)} width="120px">
+                <option value='option1'>1</option>
+                <option value='option2'>2</option>
+                <option value='option3'>3</option>
+                <option value='option4'>4</option>
+                <option value='option5'>5</option>
+              </Select>
+              
+              
+            </Flex>
+            
+            
+            </div>
+        <Stack spacing={220} direction="row" marginTop={10}>
+        <Button colorScheme='green'type="submit">Submit</Button>
+        <Button colorScheme='teal'variant="outline" onClick={handleReset}>Reset</Button>
+ 
+      </Stack>
+      </form>
+    </div>
+    </Flex>
+  );
+};
+
+
+
+
+export default Top;    
