@@ -1,0 +1,237 @@
+<<App.js>>
+import React from 'react'
+import Program from './Program'
+import { ChakraProvider } from '@chakra-ui/react';
+
+const App = () => {
+  return (
+    <div className='Forms'>
+      <ChakraProvider>
+      <Program/>
+      </ChakraProvider>
+    </div>
+  )
+}
+
+export default App;
+
+
+<<index.js>>
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import { ChakraProvider } from '@chakra-ui/react'
+import { Input } from '@chakra-ui/react'
+import reportWebVitals from './reportWebVitals';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <ChakraProvider>
+      <App />
+    </ChakraProvider> 
+  </React.StrictMode>
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+
+
+<<Program.js>>
+
+
+import React, { useState } from 'react';
+import { Input } from '@chakra-ui/react'
+import { px } from 'framer-motion'
+import { Text } from '@chakra-ui/react'
+import { Heading, Select} from '@chakra-ui/react'
+import {InputGroup, InputLeftElement, InputRightElement, Stack, Flex } from '@chakra-ui/react'
+import { Button, ButtonGroup } from '@chakra-ui/react'
+import { Radio, RadioGroup } from '@chakra-ui/react'
+import {
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberIncrementStepper,
+    NumberDecrementStepper,}from "@chakra-ui/react";
+
+
+
+
+const FormField = ({label,inputType,placeholder,value,onChange}) =>{
+    return(
+        <Flex align="center" marginBottom={4}>
+      <Text fontSize='md' width="200px" textAlign="justify" marginRight={100}>{label}</Text>
+    
+        <Input type={inputType} placeholder={placeholder} value={value} onChange={onChange} htmlSize={14} width="300px" />
+    </Flex>
+  );
+};
+
+const Main = () => {
+    const [events, setEvents] = useState('');
+    const [title, setTitle] = useState('');
+    const [fromDate, setFromDate] = useState('');
+    const [toDate, setToDate] = useState('');
+    const [sponsor, setSponsor] = useState('');
+    const [proof, setProof] = useState(null);
+    const [modes, setModes] = useState('0');
+    const [faculty, setFaculty] = useState('');
+    const [venue, setVenue] = useState('');
+    const[resource,setResource]= useState('');
+    const[delegate,setDelegate]= useState('');
+
+
+    
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent the default form submission
+    const formData = {
+      events,
+      title,
+      fromDate,
+      toDate,
+      sponsor,
+      proof,
+      modes,
+      faculty,
+      venue,
+      resource,
+      delegate,
+    
+      
+    };
+        console.log('Submitted Data:', formData);
+
+
+    // Here you can add logic to save the data (e.g., send it to an API)
+  };
+
+  
+
+  const handleReset = () => {
+    setEvents('');
+    setTitle('');
+    setFromDate('');
+    setToDate('');
+    setSponsor('');
+    setProof(null);
+    setModes('');
+    setFaculty('');
+    setVenue('');
+    setDelegate();
+    setResource('');
+    
+
+  };
+  const handleRadioChange = (value) => {
+    setModes(value);
+
+  };
+
+
+
+  return (
+    
+    <Flex direction="column" align="center" justify="center" height="100vh" className='mains'>
+    <div className='mains'>
+        <Heading textAlign= "center" mb={4}>Faculty Activities</Heading>
+        <hr/>
+        <br/>
+        <Heading textAlign= "center" size='md'mb={5}>Programs Organized</Heading>
+        
+                <form onSubmit={handleSubmit}>
+                <FormField label="Name of the Faculty :" inputType="text" placeholder="Name of the Faculty" value={faculty} onChange={(e) => setFaculty(e.target.value)}/>
+                     <Flex align="center" marginBottom={4}>
+                     <Text fontSize='md' width="200px" textAlign="justify" marginRight={100}>Type of Event:</Text>
+                      <Select align='center' placeholder='FDP' value={events} onChange={(e) => setEvents(e.target.value)} width="300px">
+                <option value='option1'>Webinar</option>
+                <option value='option2'>Guest Lecture</option>
+                <option value='option3'>National Seminar</option>
+                <option value='option4'>National Workshop</option>
+                <option value='option5'>National Conference</option>
+                <option value='option5'>Interational Seminar</option>
+                <option value='option5'>Interational Workshop</option>
+                <option value='option5'>Interational Conference</option>
+              </Select>
+              </Flex>
+              <Flex justifyContent="center" marginRight={-150}marginBottom={5}>
+              <RadioGroup value={modes} onChange={handleRadioChange} >
+      <Stack direction='row'>
+        <Radio value='Offline'>Offline</Radio>
+        <Radio value='Online'>Online</Radio>
+      </Stack>
+    </RadioGroup>
+    </Flex>
+
+    
+    
+            
+                    
+                    <FormField label="Title of the Program :" inputType="text" placeholder="Title of the Program" value={title} onChange={(e) => setTitle(e.target.value)}/>
+                   
+                   
+
+              <Flex direction="column" marginBottom={1}>
+                                    <FormField label="From :" inputType="date" value={fromDate} onChange={(e) => setFromDate(e.target.value)} />
+                                    <FormField label="To :" inputType="date" value={toDate} onChange={(e) => setToDate(e.target.value)} />
+                                </Flex>
+                                <FormField label="Venue :" inputType="text" placeholder="Enter the Venue" value={venue} onChange={(e) => setVenue(e.target.value)}/>
+                                <FormField label="Resource Person :" inputType="text" placeholder="Resource Person" value={resource} onChange={(e) => setResource(e.target.value)}/>
+                    <FormField label="Sponsorships if/any :" inputType="text" placeholder="Sponsorships"value={sponsor} onChange={(e) => setSponsor(e.target.value)}/>
+                    <Flex align="center" marginBottom={5}>
+                  <Text
+                    fontSize="md"
+                    width="200px"
+                    textAlign="justify"
+                    marginRight={100}
+                  >
+                    No of Delegate Participants
+                  </Text>
+
+                  <NumberInput
+                    size="md"
+                    maxW={100}
+                    min={0}
+                    max={100}
+                    value={delegate}
+                    onChange={(valueString) =>
+                      setDelegate(parseInt(valueString) || 0)
+                    } // Update state on change
+                  >
+                    <NumberInputField />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </Flex>
+
+                
+                    <FormField label="Report/Certificate:" inputType="file" onChange={(e) => setProof(e.target.files[0])} />
+                    <Stack spacing={220} direction="row" marginTop={0}>
+                    <Button colorScheme='green'type="submit">Submit</Button>
+                    <Button colorScheme='teal'variant="outline" onClick={handleReset}>Reset</Button>
+ 
+      </Stack>
+      </form>
+      
+
+            
+                    
+
+      
+    </div>
+    </Flex>
+  );
+};
+
+
+
+
+export default Main;    
+
+
