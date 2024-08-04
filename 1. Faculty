@@ -1,0 +1,408 @@
+<<App.js>>
+
+import React from 'react'
+import Fac from './Fac';
+import theme from './theme';
+import { ChakraProvider } from '@chakra-ui/react';
+
+const App = () => {
+  return (
+    <div className='Faculty'>
+      <ChakraProvider>
+      <Fac/>
+      </ChakraProvider>
+    </div>
+  )
+}
+
+export default App;
+
+<<index.js>>
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import { ChakraProvider } from '@chakra-ui/react'
+import { Input } from '@chakra-ui/react'
+import reportWebVitals from './reportWebVitals';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <ChakraProvider>
+      <App />
+     </ChakraProvider>
+  </React.StrictMode>
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+
+
+<<Fac.js>>
+
+import React, { useState } from "react";
+import { Input } from "@chakra-ui/react";
+import { px } from "framer-motion";
+import { Text } from "@chakra-ui/react";
+import { Heading, Select } from "@chakra-ui/react";
+import {
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+  Stack,
+  Flex,
+} from "@chakra-ui/react";
+import {
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+} from "@chakra-ui/react";
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
+import { Button, ButtonGroup } from "@chakra-ui/react";
+
+const FormField = ({ label, inputType, placeholder, value, onChange }) => {
+  return (
+    <Flex align="center" marginBottom={4}>
+      <Text fontSize="md" width="200px" textAlign="justify" marginRight={100}>
+        {label}
+      </Text>
+
+      <Input
+        type={inputType}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        htmlSize={14}
+        width="300px"
+      />
+    </Flex>
+  );
+};
+
+const Main = () => {
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const [title, setTitle] = useState("");
+  const [topic, setTopic] = useState("");
+  const [events, setEvents] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [venue, setVenue] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [delegate, setDelegate] = useState(0);
+  const [proof, setProof] = useState(null);
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent the default form submission
+    const formData = {
+      title,
+      topic,
+      events,
+      fromDate,
+      toDate,
+      venue,
+      city,
+      country,
+      delegate,
+      proof,
+    };
+    console.log("Submitted Data:", formData);
+
+    // Here you can add logic to save the data (e.g., send it to an API)
+  };
+
+  const handleReset = () => {
+    setTitle('');
+    setTopic('');
+    setEvents('');
+    setFromDate('');
+    setToDate('');
+    setVenue('');
+    setCity('');
+    setCountry('');
+    setDelegate();
+    setProof(null);
+  };
+  return (
+    <Flex
+      direction="column"
+      align="center"
+      justify="center"
+      height="100vh"
+      className="mains"
+    >
+      <div className="mains">
+        <Heading textAlign="center" mb={4}>
+          Faculty Activities
+        </Heading>
+        <hr />
+        <br />
+        <Heading textAlign="center" size="md" mb={5}>
+          Guest Lectures Delivered
+        </Heading>
+        <Tabs
+          variant="soft-rounded"
+          colorScheme="blue"
+          onChange={(index) => setActiveTabIndex(index)}
+        >
+          <TabList>
+            <Tab>Internal Event</Tab>
+            <Tab>External Event</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <form onSubmit={handleSubmit}>
+                <FormField
+                  label="Title of the Event :"
+                  inputType="text"
+                  placeholder="Enter the Title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+                <FormField
+                  label="Topic of the Lecture :"
+                  inputType="text"
+                  placeholder="Topic of the Lecture"
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
+                />
+                <Flex align="center" marginBottom={4}>
+                  <Text
+                    fontSize="md"
+                    width="200px"
+                    textAlign="justify"
+                    marginRight={100}
+                  >
+                    Type of Event:
+                  </Text>
+                  <Select
+                    placeholder="FDP"
+                    value={events}
+                    onChange={(e) => setEvents(e.target.value)}
+                    width="300px"
+                  >
+                    <option value="option1">Webinar</option>
+                    <option value="option2">Guest Lecture</option>
+                    <option value="option3">National Seminar</option>
+                    <option value="option4">National Workshop</option>
+                    <option value="option5">National Conference</option>
+                    <option value="option5">Interational Seminar</option>
+                    <option value="option5">Interational Workshop</option>
+                    <option value="option5">Interational Conference</option>
+                  </Select>
+                </Flex>
+
+                <Flex direction="column" marginBottom={1}>
+                  <FormField
+                    label="From :"
+                    inputType="date"
+                    value={fromDate}
+                    onChange={(e) => setFromDate(e.target.value)}
+                  />
+                  <FormField
+                    label="To :"
+                    inputType="date"
+                    value={toDate}
+                    onChange={(e) => setToDate(e.target.value)}
+                  />
+                </Flex>
+                <FormField
+                  label="Venue :"
+                  inputType="text"
+                  value={venue}
+                  onChange={(e) => setVenue(e.target.value)}
+                />
+                <FormField
+                  label="City :"
+                  inputType="text"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                />
+                <FormField
+                  label="Country :"
+                  inputType="text"
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                />
+                <Flex align="center" marginBottom={5}>
+                  <Text
+                    fontSize="md"
+                    width="200px"
+                    textAlign="justify"
+                    marginRight={100}
+                  >
+                    No of Delegate Participants
+                  </Text>
+
+                  <NumberInput
+                    size="md"
+                    maxW={100}
+                    min={0}
+                    max={100}
+                    value={delegate}
+                    onChange={(valueString) =>
+                      setDelegate(parseInt(valueString) || 0)
+                    } // Update state on change
+                  >
+                    <NumberInputField />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </Flex>
+                <FormField
+                  label="Report/Certificate:"
+                  inputType="file"
+                  onChange={(e) => setProof(e.target.files[0])}
+                />
+                <Stack spacing={220} direction="row" marginTop={0}>
+                  <Button colorScheme="green" type="submit">
+                    Submit
+                  </Button>
+                  <Button
+                    colorScheme="teal"
+                    variant="outline"
+                    onClick={handleReset}
+                  >
+                    Reset
+                  </Button>
+                </Stack>
+              </form>
+            </TabPanel>
+            <TabPanel>
+              <form onSubmit={handleSubmit}>
+                <FormField
+                  label="Title of the Event :"
+                  inputType="text"
+                  placeholder="Enter the Title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+                <FormField
+                  label="Topic of the Lecture :"
+                  inputType="text"
+                  placeholder="Topic of the Lecture"
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
+                />
+                <Flex align="center" marginBottom={4}>
+                  <Text
+                    fontSize="md"
+                    width="200px"
+                    textAlign="justify"
+                    marginRight={100}
+                  >
+                    Type of Event:
+                  </Text>
+                  <Select
+                    placeholder="FDP"
+                    value={events}
+                    onChange={(e) => setEvents(e.target.value)}
+                    width="300px"
+                  >
+                    <option value="option1">Webinar</option>
+                    <option value="option2">Guest Lecture</option>
+                    <option value="option3">National Seminar</option>
+                    <option value="option4">National Workshop</option>
+                    <option value="option5">National Conference</option>
+                    <option value="option5">Interational Seminar</option>
+                    <option value="option5">Interational Workshop</option>
+                    <option value="option5">Interational Conference</option>
+                  </Select>
+                </Flex>
+
+                <Flex direction="column" marginBottom={1}>
+                  <FormField
+                    label="From :"
+                    inputType="date"
+                    value={fromDate}
+                    onChange={(e) => setFromDate(e.target.value)}
+                  />
+                  <FormField
+                    label="To :"
+                    inputType="date"
+                    value={toDate}
+                    onChange={(e) => setToDate(e.target.value)}
+                  />
+                </Flex>
+                <FormField
+                  label="Venue :"
+                  inputType="text"
+                  value={venue}
+                  onChange={(e) => setVenue(e.target.value)}
+                />
+                <FormField
+                  label="City :"
+                  inputType="text"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                />
+                <FormField
+                  label="Country :"
+                  inputType="text"
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                />
+                <Flex align="center" marginBottom={5}>
+                  <Text
+                    fontSize="md"
+                    width="200px"
+                    textAlign="justify"
+                    marginRight={100}
+                    value={delegate}
+                    onChange={(e) => setDelegate(e.target.value)}
+                  >
+                    No of Delegate Participants
+                  </Text>
+
+                  <NumberInput
+                    size="md"
+                    maxW={100}
+                    min={0}
+                    max={100}
+                    value={delegate}
+                    onChange={(valueString) =>
+                      setDelegate(parseInt(valueString) || 0)
+                    } // Update state on change
+                  >
+                    <NumberInputField />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </Flex>
+                <FormField
+                  label="Report/Certificate:"
+                  inputType="file"
+                  onChange={(e) => setProof(e.target.files[0])}
+                />
+                <Stack spacing={220} direction="row" marginTop={0}>
+                  <Button colorScheme="green" type="submit">
+                    Submit
+                  </Button>
+                  <Button
+                    colorScheme="teal"
+                    variant="outline"
+                    onClick={handleReset}
+                  >
+                    Reset
+                  </Button>
+                </Stack>
+              </form>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </div>
+    </Flex>
+  );
+};
+
+export default Main;
